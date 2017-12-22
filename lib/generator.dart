@@ -35,9 +35,7 @@ class SerializableGenerator extends GeneratorForAnnotation<Serializable> {
         ..addAll(stMethods.where(methodCheck)));
     var typeGenerics = _distinctByName<TypeParameterElement>(element.typeParameters);
 
-
-
-    return '''abstract class _\$${className}Serializable${(typeGenerics.isNotEmpty) ? '<' + typeGenerics.join(',') + '>' : ''} extends SerializableMap {
+    return '''abstract class _\$${className}Serializable${(typeGenerics.isNotEmpty) ? '<' + typeGenerics.map((x) => x.type.name).join(',') + '>' : ''} extends SerializableMap {
   ${element.constructors.where((c) => c.isConst)
         .map((c) => 'const _\$${className}Serializable${c.name.isNotEmpty ? '.' + c.name : ''}();')
         .join('\n')
